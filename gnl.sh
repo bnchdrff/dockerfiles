@@ -1,6 +1,6 @@
 # ruby and bundler
 curl -L get.rvm.io | bash -s stable
-bash -c "source /etc/profile.d/rvm.sh && rvm requirements; rvm install 1.9.3-p484; gem install bundler"
+source /etc/profile.d/rvm.sh && rvm requirements; rvm install 1.9.3-p484; gem install bundler
 
 # drupal
 cd /srv/www

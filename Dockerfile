@@ -40,6 +40,16 @@ ADD thermitic/etc/nginx/includes/fastcgi_ssl_params.conf /etc/nginx/includes/fas
 ADD thermitic/etc/nginx/includes/drupal.conf /etc/nginx/includes/drupal.conf
 ADD thermitic/etc/nginx/conf.d/site.conf /etc/nginx/conf.d/site.conf
 
+# php55
+RUN adduser --system --group --home /srv/www www55 && usermod -aG www-data www55
+RUN mkdir -p /etc/php5/fpm/pool.d
+RUN mkdir /var/log/php
+ADD thermitic/etc/php5/fpm/php-fpm.conf /etc/php5/fpm/php-fpm.conf
+ADD thermitic/etc/php5/fpm/fpm-pool-common.conf /etc/php5/fpm/fpm-pool-common.conf
+ADD thermitic/etc/php5/fpm/php.ini /etc/php5/fpm/php.ini
+ADD thermitic/etc/php5/fpm/pool.d/www55.conf /etc/php5/fpm/pool.d/www55.conf
+ADD thermitic/etc/php5/cli/php.ini /etc/php5/cli/php.ini
+
 # www
 RUN mkdir -p /srv/www/nginx-default
 ADD thermitic/srv/www/nginx-default/index.html /srv/www/nginx-default/index.html
