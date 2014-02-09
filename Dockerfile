@@ -63,12 +63,11 @@ RUN chmod 700 /root/.ssh
 RUN chmod 600 /root/.ssh
 RUN sed -e 's/^PermitRootLogin.*$/PermitRootLogin without-password/g' /etc/ssh/sshd_config > /tmp/sshd_config && mv /tmp/sshd_config /etc/ssh/sshd_config
 
-# app
-#RUN wget -qO- https://raw.github.com/detroitledger/gnl_profile/docker/install.sh | sh
-
+# store env vars + start supervisord
+ADD start-with-env.sh /usr/sbin/start-with-env.sh
 
 EXPOSE 22
 EXPOSE 80
 EXPOSE 443
 
-CMD ["/usr/bin/supervisord", "-n"]
+CMD ["/usr/sbin/start-with-env.sh"]
