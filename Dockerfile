@@ -64,10 +64,10 @@ RUN chmod 600 /root/.ssh
 RUN sed -e 's/^PermitRootLogin.*$/PermitRootLogin without-password/g' /etc/ssh/sshd_config > /tmp/sshd_config && mv /tmp/sshd_config /etc/ssh/sshd_config
 
 # store env vars + start supervisord
-ADD start-with-env.sh /usr/sbin/start-with-env.sh
+ADD thermitic/usr/local/sbin/start-with-env.sh /usr/local/sbin/start-with-env.sh
 
 EXPOSE 22
 EXPOSE 80
 EXPOSE 443
 
-CMD ["/usr/sbin/start-with-env.sh"]
+CMD ["/usr/local/sbin/start-with-env.sh"]
