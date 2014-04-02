@@ -32,13 +32,9 @@ RUN rm -rf /etc/nginx/conf.d/*
 RUN rm -rf /srv/www/*
 RUN mkdir -p /var/lib/nginx/speed
 RUN mkdir -p /var/lib/nginx/body
-RUN mkdir -p /etc/nginx/includes
-RUN mkdir -p /etc/nginx/conf.d
-ADD thermitic/etc/nginx/nginx.conf /etc/nginx/nginx.conf
-ADD thermitic/etc/nginx/includes/fastcgi_params.conf /etc/nginx/includes/fastcgi_params.conf
-ADD thermitic/etc/nginx/includes/fastcgi_ssl_params.conf /etc/nginx/includes/fastcgi_ssl_params.conf
-ADD thermitic/etc/nginx/includes/drupal.conf /etc/nginx/includes/drupal.conf
-ADD thermitic/etc/nginx/conf.d/site.conf /etc/nginx/conf.d/site.conf
+ADD perusio /etc/nginx
+RUN sed -e 's/example.com/gnl.detriot.org/g' /etc/nginx/sites-available/example.com.conf > /etc/nginx/sites-available/gnl.detriot.org.conf && rm /etc/nginx/sites-available/example.com.conf
+RUN ln -s /etc/nginx/sites-available/gnl.detriot.org.conf /etc/nginx/sites-enabled/gnl.detriot.org.conf
 
 # php55
 RUN adduser --system --group --home /srv/www www55 && usermod -aG www-data www55

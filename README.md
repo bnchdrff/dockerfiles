@@ -17,6 +17,10 @@ I will continue to minimize the configuration, but I'd like to have little modul
 
 I'd like to remove my ssh key and include it via ssh-import-id, and make the import origin configurable. Still learning this docker biz...
 
+## Install
+
+Apply our customconf.patch to perusio's config before building the container: `cd perusio; git apply < ../perusio-customconf.patch`
+
 ## Credits
 
 * @omega8cc - php5-fpm and nginx config patterns
