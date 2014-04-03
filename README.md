@@ -5,7 +5,7 @@ Inside this project, you can find a Dockerfile and related configs to build a De
 
 The script `www-and-db.sh` runs this container (after you build it with `docker build -t thermitic/drupal-docker .`) and then creates and links a MariaDB container. An example of how to use this linked database server in a Drupal deployment is `gnl.sh`.
 
-The nginx and php configuration is yanked from [Omega8's Drupal Aegir hosting systems](https://github.com/omega8cc/nginx-for-drupal), but with the aegir bits and some other stuff left out.
+The nginx and php configuration is from [perusio's repo](https://github.com/perusio/drupal-with-nginx).
 
 ## Why?
 
@@ -16,10 +16,6 @@ I like using omega8's configuration for drupal development and production, but I
 I will continue to minimize the configuration, but I'd like to have little modules for certain systems (redis cache, xdebug, module-specific nginx stuff, uploadprogress, etc).
 
 I'd like to remove my ssh key and include it via ssh-import-id, and make the import origin configurable. Still learning this docker biz...
-
-## Install
-
-Apply our customconf.patch to perusio's config before building the container: `cd perusio; git apply < ../perusio-customconf.patch`
 
 ## Credits
 
