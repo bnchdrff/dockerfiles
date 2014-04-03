@@ -19,5 +19,5 @@ I'd like to remove my ssh key and include it via ssh-import-id, and make the imp
 
 ## Credits
 
-* @omega8cc - php5-fpm and nginx config patterns
+* @perusio - nginx config
 * @bnchdrff
