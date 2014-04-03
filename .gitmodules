@@ -1,3 +1,0 @@
-[submodule "perusio"]
-	path = perusio
-	url = https://github.com/perusio/drupal-with-nginx

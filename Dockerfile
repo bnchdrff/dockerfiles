@@ -33,7 +33,7 @@ RUN rm -rf /srv/www/*
 RUN mkdir -p /var/cache/nginx/microcache
 RUN mkdir -p /var/lib/nginx/speed
 RUN mkdir -p /var/lib/nginx/body
-ADD perusio /etc/nginx
+RUN git clone https://github.com/perusio/drupal-with-nginx /etc/nginx
 ADD perusio-customconf.patch /tmp/perusio-customconf.patch
 RUN cd /etc/nginx && cat /tmp/perusio-customconf.patch | git apply
 ADD thermitic/etc/nginx/sites-available/site.conf /etc/nginx/sites-available/site.conf
