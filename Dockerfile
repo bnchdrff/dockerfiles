@@ -17,7 +17,7 @@ RUN echo "deb http://nginx.org/packages/debian/ wheezy nginx" >> /etc/apt/source
 RUN echo "deb http://packages.dotdeb.org wheezy all\ndeb-src http://packages.dotdeb.org wheezy all\ndeb http://packages.dotdeb.org wheezy-php55 all\ndeb-src http://packages.dotdeb.org wheezy-php55 all" >> /etc/apt/sources.list.d/dotdeb.list
 
 RUN apt-get update
-RUN apt-get -y install openssh-server supervisor nginx openssl ca-certificates php5-fpm php5-cli php5-curl php5-mcrypt php5-gd php5-common php5-mysql php5-xmlrpc php5-xsl php5-dev php-pear mysql-client curl git
+RUN apt-get -y install openssh-server supervisor nginx-extras openssl ca-certificates php5-fpm php5-cli php5-curl php5-mcrypt php5-gd php5-common php5-mysql php5-xmlrpc php5-xsl php5-dev php-pear mysql-client curl git
 RUN pear channel-discover pear.drush.org && pear install drush/drush
 
 # openssh
@@ -28,13 +28,17 @@ RUN mkdir -p /var/log/supervisor
 ADD thermitic/etc/supervisor/conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # nginx
-RUN rm -rf /etc/nginx/conf.d/*
+RUN rm -rf /etc/nginx
 RUN rm -rf /srv/www/*
+RUN mkdir -p /var/cache/nginx/microcache
 RUN mkdir -p /var/lib/nginx/speed
 RUN mkdir -p /var/lib/nginx/body
 ADD perusio /etc/nginx
-RUN sed -e 's/example.com/gnl.detriot.org/g' /etc/nginx/sites-available/example.com.conf > /etc/nginx/sites-available/gnl.detriot.org.conf && rm /etc/nginx/sites-available/example.com.conf
-RUN ln -s /etc/nginx/sites-available/gnl.detriot.org.conf /etc/nginx/sites-enabled/gnl.detriot.org.conf
+ADD perusio-customconf.patch /tmp/perusio-customconf.patch
+RUN cd /etc/nginx && cat /tmp/perusio-customconf.patch | git apply
+ADD thermitic/etc/nginx/sites-available/site.conf /etc/nginx/sites-available/site.conf
+RUN mkdir -p /etc/nginx/sites-enabled
+RUN ln -s /etc/nginx/sites-available/site.conf /etc/nginx/sites-enabled/site.conf
 
 # php55
 RUN adduser --system --group --home /srv/www www55 && usermod -aG www-data www55
@@ -59,6 +63,8 @@ RUN chmod 700 /root/.ssh
 RUN chmod 600 /root/.ssh
 RUN sed -e 's/^PermitRootLogin.*$/PermitRootLogin without-password/g' /etc/ssh/sshd_config > /tmp/sshd_config && mv /tmp/sshd_config /etc/ssh/sshd_config
 
+# build site
+ADD thermitic/usr/local/bin/build-gnl.sh /usr/local/bin/build-gnl.sh
 # store env vars + start supervisord
 ADD thermitic/usr/local/sbin/start-with-env.sh /usr/local/sbin/start-with-env.sh
 

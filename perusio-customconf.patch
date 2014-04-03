@@ -1,7 +1,16 @@
 diff --git a/nginx.conf b/nginx.conf
-index 2da6d13..311a3dc 100644
+index 2da6d13..d62c4b9 100644
 --- a/nginx.conf
 +++ b/nginx.conf
+@@ -138,7 +138,7 @@ http {
+     ## See http://wiki.nginx.org/HttpCoreModule#variables_hash_bucket_size
+     ## The line variables_hash_bucket_size was added for completeness but not
+     ## changed from default.
+-    #variables_hash_max_size 1024; # default 512
++    variables_hash_max_size 1024; # default 512
+     #variables_hash_bucket_size 64; # default is 64
+ 
+     ## For the filefield_nginx_progress module to work. From the
 @@ -168,12 +168,12 @@ http {
  
      ## Include the upstream servers for PHP FastCGI handling config.
@@ -93,7 +102,7 @@ index 1f6d218..4068a72 100644
 +#    fastcgi_pass phpcgi;
 +#}
 diff --git a/upstream_phpcgi_unix.conf b/upstream_phpcgi_unix.conf
-index ec3a80b..7ee8da5 100644
+index ec3a80b..4c21d07 100644
 --- a/upstream_phpcgi_unix.conf
 +++ b/upstream_phpcgi_unix.conf
 @@ -14,8 +14,7 @@ upstream phpcgi {
@@ -102,7 +111,7 @@ index ec3a80b..7ee8da5 100644
  
 -    server unix:/var/run/php-fpm.sock;
 -    server unix:/var/run/php-fpm-zwei.sock;
-+    server unix:/var/run/www55.sock;
++    server unix:/var/run/www55.fpm.sock;
      ## Create a backend connection cache. Note that this requires
      ## Nginx version greater or equal to 1.1.4.
      ## Cf. http://nginx.org/en/CHANGES. Comment out the following
