@@ -7,6 +7,23 @@ The script `www-and-db.sh` runs this container (after you build it with `docker 
 
 The nginx and php configuration is from [perusio's repo](https://github.com/perusio/drupal-with-nginx).
 
+## Requirements
+
+Docker 0.8.x
+
+## Build
+
+```
+sudo docker build -t bnchdrff/drupal-docker .
+```
+
+## Run
+
+```
+sudo docker run -d --name=mariadb tianon/mariadb
+sudo docker run -d -p 80:80 -p 2222:22 --link mariadb:db --name=www bnchdrff/drupal-docker
+```
+
 ## Why?
 
 I like using omega8's configuration for drupal development and production, but I don't really like aegir and related bloat.
