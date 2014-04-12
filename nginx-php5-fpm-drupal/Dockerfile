@@ -26,7 +26,7 @@ RUN mkdir /var/run/sshd
 
 # supervisor
 RUN mkdir -p /var/log/supervisor
-ADD thermitic/etc/supervisor/conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+ADD config/etc/supervisor/conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # nginx
 RUN rm -rf /etc/nginx
@@ -37,7 +37,7 @@ RUN mkdir -p /var/lib/nginx/body
 RUN git clone https://github.com/perusio/drupal-with-nginx /etc/nginx
 ADD perusio-customconf.patch /tmp/perusio-customconf.patch
 RUN cd /etc/nginx && cat /tmp/perusio-customconf.patch | git apply
-ADD thermitic/etc/nginx/sites-available/site.conf /etc/nginx/sites-available/site.conf
+ADD config/etc/nginx/sites-available/site.conf /etc/nginx/sites-available/site.conf
 RUN mkdir -p /etc/nginx/sites-enabled
 RUN ln -s /etc/nginx/sites-available/site.conf /etc/nginx/sites-enabled/site.conf
 
@@ -45,15 +45,15 @@ RUN ln -s /etc/nginx/sites-available/site.conf /etc/nginx/sites-enabled/site.con
 RUN adduser --system --group --home /srv/www www55 && usermod -aG www-data www55
 RUN mkdir -p /etc/php5/fpm/pool.d
 RUN mkdir /var/log/php
-ADD thermitic/etc/php5/fpm/php-fpm.conf /etc/php5/fpm/php-fpm.conf
-ADD thermitic/etc/php5/fpm/fpm-pool-common.conf /etc/php5/fpm/fpm-pool-common.conf
-ADD thermitic/etc/php5/fpm/php.ini /etc/php5/fpm/php.ini
-ADD thermitic/etc/php5/fpm/pool.d/www55.conf /etc/php5/fpm/pool.d/www55.conf
-ADD thermitic/etc/php5/cli/php.ini /etc/php5/cli/php.ini
+ADD config/etc/php5/fpm/php-fpm.conf /etc/php5/fpm/php-fpm.conf
+ADD config/etc/php5/fpm/fpm-pool-common.conf /etc/php5/fpm/fpm-pool-common.conf
+ADD config/etc/php5/fpm/php.ini /etc/php5/fpm/php.ini
+ADD config/etc/php5/fpm/pool.d/www55.conf /etc/php5/fpm/pool.d/www55.conf
+ADD config/etc/php5/cli/php.ini /etc/php5/cli/php.ini
 
 # www
 RUN mkdir -p /srv/www/nginx-default
-ADD thermitic/srv/www/nginx-default/index.html /srv/www/nginx-default/index.html
+ADD config/srv/www/nginx-default/index.html /srv/www/nginx-default/index.html
 VOLUME ["/srv/www"]
 
 # identities
@@ -64,7 +64,7 @@ RUN chmod 600 /root/.ssh
 RUN sed -e 's/^PermitRootLogin.*$/PermitRootLogin without-password/g' /etc/ssh/sshd_config > /tmp/sshd_config && mv /tmp/sshd_config /etc/ssh/sshd_config
 
 # store env vars + start supervisord
-ADD thermitic/usr/local/sbin/start-with-env.sh /usr/local/sbin/start-with-env.sh
+ADD config/usr/local/sbin/start-with-env.sh /usr/local/sbin/start-with-env.sh
 
 EXPOSE 22
 EXPOSE 80
