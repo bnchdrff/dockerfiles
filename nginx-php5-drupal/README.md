@@ -12,7 +12,7 @@ Docker 0.8.x
 ## Build
 
 ```
-docker build -t bnchdrff/drupal-docker .
+docker build -t bnchdrff/nginx-php5-drupal .
 ```
 
 ## Run
@@ -20,8 +20,8 @@ docker build -t bnchdrff/drupal-docker .
 Create a MariaDB container, and then create and link a drupal-docker container to it. Also, expose some ports:
 
 ```
-docker run -d --name=mariadb tianon/mariadb
-docker run -d -p 80:80 -p 2222:22 --link mariadb:db --name=www bnchdrff/drupal-docker
+docker run -d --name=mariadb bnchdrff/mariadb
+docker run -d -p 80:80 -p 2222:22 --link mariadb:db --name=www bnchdrff/nginx-php5-drupal
 ```
 
 ## Why?
