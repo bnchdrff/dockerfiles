@@ -3,6 +3,8 @@ Minimal-ish Drupal
 
 Inside this project, you can find a Dockerfile and related configs to build a Debian Wheezy install with nginx and php5-fpm configured to host a Drupal site, along with sshd, managed by supervisord.
 
+The container can use volumes from a data-only container to hold nginx config and Drupal site code.
+
 The nginx and php configuration is from [perusio's repo](https://github.com/perusio/drupal-with-nginx).
 
 ## Requirements
@@ -20,9 +22,19 @@ docker build -t bnchdrff/nginx-php5-drupal .
 Create a MariaDB container, and then create and link a drupal-docker container to it. Also, expose some ports:
 
 ```
-docker run -d --name=mariadb bnchdrff/mariadb
-docker run -d -p 80:80 -p 2222:22 --link mariadb:db --name=www bnchdrff/nginx-php5-drupal
+docker run -v /var/lib/mysql --name=db-data busybox true
+docker run -d --volumes-from=db-data --name=db bnchdrff/mariadb
+docker run -v /srv/www -v /etc/nginx/sites-enabled --name www-data busybox true
+docker run -d -p 80:80 -p 2222:22 --link=db:db --volumes-from=www-data --name=www bnchdrff/nginx-php5-drupal
 ```
+
+## Use
+
+The linked database address is available as environment variable `DB_PORT_3306_TCP_ADDR`.
+
+Put code in /srv/www/drupal and an nginx config file in /etc/nginx/sites-enabled - these will be stored in a data-only container if you followed the above instructions.
+
+A sample nginx config is available in /etc/nginx/sites-available/site.conf
 
 ## Why?
 

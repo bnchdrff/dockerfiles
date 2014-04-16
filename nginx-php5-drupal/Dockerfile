@@ -39,7 +39,6 @@ ADD perusio-customconf.patch /tmp/perusio-customconf.patch
 RUN cd /etc/nginx && cat /tmp/perusio-customconf.patch | git apply
 ADD config/etc/nginx/sites-available/site.conf /etc/nginx/sites-available/site.conf
 RUN mkdir -p /etc/nginx/sites-enabled
-RUN ln -s /etc/nginx/sites-available/site.conf /etc/nginx/sites-enabled/site.conf
 
 # php55
 RUN adduser --system --group --home /srv/www www55 && usermod -aG www-data www55
@@ -53,8 +52,10 @@ ADD config/etc/php5/cli/php.ini /etc/php5/cli/php.ini
 
 # www
 RUN mkdir -p /srv/www/nginx-default
+RUN chmod 755 /srv/www
 ADD config/srv/www/nginx-default/index.html /srv/www/nginx-default/index.html
-VOLUME ["/srv/www"]
+
+VOLUME ["/srv/www", "/etc/nginx/sites-enabled"]
 
 # identities
 RUN mkdir /root/.ssh
