@@ -1,7 +1,7 @@
 MariaDB with data container storage on debian:wheezy
 ====================================================
 
-This Dockerfile build a wheezy container that runs MariaDB.
+This Dockerfile builds a wheezy container that runs MariaDB.
 
 You can supply a mysql data dir and use it thusly:
 
