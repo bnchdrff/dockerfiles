@@ -6,11 +6,12 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -yq procps 
 
 RUN sed -ri 's/^(bind-address|skip-networking)/;\1/' /etc/mysql/my.cnf
 
-RUN service mysql start && \
-	mysql -v -uroot -e'UPDATE user SET host = "%" WHERE user = "root" LIMIT 1; DELETE FROM user WHERE user = "root" AND host != "%"' mysql && \
-	service mysql stop
+# wrapper to do prep & run mysqld_safe
+ADD prep_and_mysqld_safe /usr/sbin/prep_and_mysqld_safe
+
+RUN cp -Rip /var/lib/mysql /var/lib/orig-mysql
 
 VOLUME /var/lib/mysql
 EXPOSE 3306
 
-CMD [ "mysqld_safe", "--skip-syslog" ]
+CMD [ "/usr/sbin/prep_and_mysqld_safe", "--skip-syslog" ]

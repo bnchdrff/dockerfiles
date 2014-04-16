@@ -1,0 +1,13 @@
+#!/bin/sh
+chown -R mysql:mysql /var/lib/mysql
+
+if [ ! -f /var/lib/mysql/ib_logfile0 ]; then
+  cp -Rip /var/lib/orig-mysql/* /var/lib/mysql
+  /usr/bin/mysqld_safe > /dev/null 2>&1 &
+  mysql_install_db --user=mysql --datadir=/var/lib/mysql > /dev/null 2>&1
+  sleep 5
+  mysql -v -uroot -h127.0.0.1 -e'UPDATE user SET host = "%" WHERE user = "root" LIMIT 1; DELETE FROM user WHERE user = "root" AND host != "%"' mysql
+  mysqladmin -uroot shutdown 2>&1
+fi
+
+mysqld_safe $@
