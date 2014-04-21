@@ -1,5 +1,0 @@
-DAEMON_OPTS=""
-
-if [ -f /etc/environment ]; then
-  . /etc/environment
-fi

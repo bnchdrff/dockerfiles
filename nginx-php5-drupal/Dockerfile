@@ -27,7 +27,6 @@ RUN mkdir /var/run/sshd
 # supervisor
 RUN mkdir -p /var/log/supervisor
 ADD config/etc/supervisor/conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-ADD config/etc/default/supervisor /etc/default/supervisor
 
 # nginx
 RUN rm -rf /etc/nginx
