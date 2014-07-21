@@ -1,3 +1,13 @@
+diff --git a/map_block_http_methods.conf b/map_block_http_methods.conf
+index d530838..2c193b7 100644
+--- a/map_block_http_methods.conf
++++ b/map_block_http_methods.conf
+@@ -8,4 +8,5 @@ map $request_method $not_allowed_method {
+     GET 0;
+     HEAD 0;
+     POST 0;
++    OPTIONS 0;
+ }
 diff --git a/nginx.conf b/nginx.conf
 index 2da6d13..49e009f 100644
 --- a/nginx.conf
