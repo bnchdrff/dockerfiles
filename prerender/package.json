@@ -1,0 +1,24 @@
+{
+  "name": "docker-prerender",
+  "version": "1.0.0",
+  "description": "Dockerfile to build the prerender container image",
+  "main": "server.js",
+  "dependencies": {
+    "prerender": "^3.13.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cerisier/docker-prerender.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cerisier/docker-prerender/issues"
+  },
+  "homepage": "https://github.com/cerisier/docker-prerender"
+}
