@@ -1,4 +1,5 @@
 FROM node
+MAINTAINER Benjamin Chodoroff <bc@thermitic.net>
 
 RUN echo deb http://ftp.fr.debian.org/debian/ jessie main contrib non-free > /etc/apt/source.list
 
