@@ -14,4 +14,7 @@ RUN cp -Rip /var/lib/mysql /var/lib/orig-mysql
 VOLUME /var/lib/mysql
 EXPOSE 3306
 
+#As per: https://github.com/dockerfile/mariadb/issues/3
+ENV TERM dumb
+
 CMD [ "/usr/sbin/prep_and_mysqld_safe", "--skip-syslog" ]
